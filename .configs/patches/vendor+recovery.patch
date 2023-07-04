@@ -1,0 +1,47 @@
+From 54dfa70f7b99e51e8c054d932d23e72d10155097 Mon Sep 17 00:00:00 2001
+From: someone5678 <nemui3353@gmail.com>
+Date: Sun, 25 Jun 2023 14:04:15 +0900
+Subject: [PATCH] Revert "Use variables rather than hard-coded file names for
+ the magisk addon zips, to match gui changes"
+
+This reverts commit b0fcb2d8f719eb05b177ee73eb41fb1b47976d85.
+---
+ OrangeFox_A12.sh | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/OrangeFox_A12.sh b/OrangeFox_A12.sh
+index 73117e6..b72e74a 100755
+--- a/OrangeFox_A12.sh
++++ b/OrangeFox_A12.sh
+@@ -678,16 +678,15 @@ local TDT=$(date "+%d %B %Y")
+   # delete the magisk addon zips ?
+   if [ "$FOX_DELETE_MAGISK_ADDON" = "1" ]; then
+      echo -e "${GREEN}-- Deleting the magisk addon zips ...${NC}"
+-     rm -f $FOX_TMP_WORKING_DIR/sdcard/Fox/FoxFiles/Magisk.zip
+-     rm -f $FOX_TMP_WORKING_DIR/sdcard/Fox/FoxFiles/unrootmagisk.zip
+-     rm -f $FOX_TMP_WORKING_DIR/sdcard/Fox/FoxFiles/Magisk_uninstall.zip
++     rm -f $FOX_TMP_WORKING_DIR/sdcard/Fox/FoxFiles/Magisk.apk
++     rm -f $FOX_TMP_WORKING_DIR/sdcard/Fox/FoxFiles/uninstall.zip
+   fi
+ 
+   # are we using a specific magisk zip?
+   if [ -n "$FOX_USE_SPECIFIC_MAGISK_ZIP" ]; then
+      if [ -e $FOX_USE_SPECIFIC_MAGISK_ZIP ]; then
+         echo -e "${WHITEONGREEN}-- Using magisk zip: \"$FOX_USE_SPECIFIC_MAGISK_ZIP\" ${NC}"
+-        $CP -pf $FOX_USE_SPECIFIC_MAGISK_ZIP $FOX_TMP_WORKING_DIR/sdcard/Fox/FoxFiles/Magisk.zip
++        $CP -pf $FOX_USE_SPECIFIC_MAGISK_ZIP $FOX_TMP_WORKING_DIR/sdcard/Fox/FoxFiles/Magisk.apk
+      else
+         echo -e "${WHITEONRED}-- I cannot find \"$FOX_USE_SPECIFIC_MAGISK_ZIP\"! Using the default.${NC}"
+      fi
+@@ -1382,7 +1381,7 @@ if [ "$FOX_VENDOR_CMD" = "Fox_Before_Recovery_Image" ]; then
+ #########################################################################################
+   
+   # Get Magisk version
+-  tmp1=$FOX_VENDOR_PATH/FoxFiles/Magisk.zip
++  tmp1=$FOX_VENDOR_PATH/FoxFiles/Magisk.apk
+   if [ -n "$FOX_USE_SPECIFIC_MAGISK_ZIP" -a -e "$FOX_USE_SPECIFIC_MAGISK_ZIP" ]; then
+      tmp1=$FOX_USE_SPECIFIC_MAGISK_ZIP
+   fi
+-- 
+2.39.2
+

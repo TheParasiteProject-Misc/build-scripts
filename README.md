@@ -1,6 +1,6 @@
 # Build-Scripts
 
-Sync, build script for (Insert project name here) project.<br>
+Sync, build script for OrangeFox recovery project.<br>
 Only supports Ubuntu 23.04 and up.<br>
 These are not fancy scripts. Just for personal use :P
 
@@ -67,7 +67,6 @@ These are not fancy scripts. Just for personal use :P
 ### Args
 
 * `--verbose` or `-v`: Verbose mode. Show all excuted commands while sync.
-* `--bootimage` or `-b`: Build bootimage only instead of entire rom.
 * `--ccache` or `-ec`: Enable CCache.
 * `--thinlto-cache` or `-tc`: Enable ThinLTO Cache.
 * `--clean` or `-c`: Clean mode. Build rom from scratch instead of dirty build.

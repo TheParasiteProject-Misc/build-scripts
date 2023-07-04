@@ -35,13 +35,14 @@ then
 
 	# initialize repo, sync
 	cd $ROMBASE
-	repo_init
+	#repo_init
 	repo_init_custom
 
 	copy_additional_manifests
 	copy_device_manifests
 
-	repo_sync
+	# repo_sync
+	repo_sync_custom true false
 fi
 
 if [ -d $ROMBASE ]; 
@@ -49,15 +50,16 @@ then
 	# Update sync (and sync again failed sync)
 	cd $ROMBASE
 	
-	repo_reset
+	# repo_reset
 	
 	update_repo_manifest
 	
 	copy_additional_manifests
 	copy_device_manifests
 	
-	repo_sync
-	
+	# repo_sync
+	repo_sync_custom false true
+
 	cd $ROMBASE
 	
 	# Sources envsetup to execute vendorsetup scripts

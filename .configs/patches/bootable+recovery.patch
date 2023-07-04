@@ -1,0 +1,151 @@
+From 5b73763c121e82821597cf9220f6166fd1f4a4ec Mon Sep 17 00:00:00 2001
+From: someone5678 <nemui3353@gmail.com>
+Date: Thu, 8 Jun 2023 18:45:18 +0900
+Subject: [PATCH] Revert "Use variables rather than hard-coded file names for
+ the magisk addon zips, to match gui changes"
+
+This reverts commit b0fcb2d8f719eb05b177ee73eb41fb1b47976d85.
+---
+ data.cpp                                   |  3 ---
+ gui/action.cpp                             |  2 +-
+ gui/theme/portrait_hdpi/pages/advanced.xml |  8 ++++----
+ gui/theme/portrait_hdpi/pages/install.xml  | 12 ++++++------
+ gui/theme/portrait_hdpi/pages/magisk.xml   |  6 +++---
+ variables.h                                |  2 --
+ 6 files changed, 14 insertions(+), 19 deletions(-)
+
+diff --git a/data.cpp b/data.cpp
+index 0439e612..fbfe79e3 100755
+--- a/data.cpp
++++ b/data.cpp
+@@ -721,9 +721,6 @@ void DataManager::SetDefaultValues()
+   mConst.SetValue(BUILD_TYPE_STR, FOX_BUILD_TYPE);
+   mConst.SetValue("fox_branch", FOX_BRANCH);
+ 
+-  mConst.SetValue("fox_magisk_zip_installer", FOX_MAGISK_ZIP_INSTALLER);
+-  mConst.SetValue("fox_magisk_uninstaller", FOX_MAGISK_UNINSTALLER);
+-
+   // override any hard-coded value in ui.xml
+   mConst.SetValue("fox_theme_version", FOX_THEME_VERSION);
+   //
+diff --git a/gui/action.cpp b/gui/action.cpp
+index 3f94f2b0..8974cf4a 100755
+--- a/gui/action.cpp
++++ b/gui/action.cpp
+@@ -1160,7 +1160,7 @@ int GUIAction::queuezip(std::string arg __unused)
+ void GUIAction::find_magisk(){ //[f/d]
+   int found = 0;
+   for (int i = 0; i < zip_queue_index; i++)
+-    if (zip_queue[i] == Fox_Home_Files + "/" + FOX_MAGISK_ZIP_INSTALLER)
++    if (zip_queue[i] == Fox_Home_Files + "/Magisk.zip")
+       found = 1;
+   DataManager::SetValue("of_magisk_in_queue", found);
+ }
+diff --git a/gui/theme/portrait_hdpi/pages/advanced.xml b/gui/theme/portrait_hdpi/pages/advanced.xml
+index 31932654..8c3f0d70 100644
+--- a/gui/theme/portrait_hdpi/pages/advanced.xml
++++ b/gui/theme/portrait_hdpi/pages/advanced.xml
+@@ -301,8 +301,8 @@
+ 				<action function="queueclear"/>
+ 				<action function="set">fox_m_author=topjohnwu</action>
+ 				<action function="set">fox_m_name={@module_install} Magisk %magisk_ver%</action>
+-				<action function="set">tw_file=%fox_magisk_zip_installer%</action>
+-				<action function="set">tw_filename=/sdcard/Fox/FoxFiles/%fox_magisk_zip_installer%</action>
++				<action function="set">tw_file=Magisk.apk</action>
++				<action function="set">tw_filename=/sdcard/Fox/FoxFiles/Magisk.apk</action>
+ 				<action function="set">tw_filecheck=%tw_filename%</action>
+ 				<action function="set">tw_zip_location=/sdcard/Fox/FoxFiles</action>
+ 				<action function="queuezip"/>
+@@ -317,8 +317,8 @@
+ 				<action function="queueclear"/>
+ 				<action function="set">fox_m_author=topjohnwu</action>
+ 				<action function="set">fox_m_name={@module_uninstall} Magisk</action>
+-				<action function="set">tw_file=%fox_magisk_uninstaller%</action>
+-				<action function="set">tw_filename=/sdcard/Fox/FoxFiles/%fox_magisk_uninstaller%</action>
++				<action function="set">tw_file=uninstall.zip</action>
++				<action function="set">tw_filename=/sdcard/Fox/FoxFiles/uninstall.zip</action>
+ 				<action function="set">tw_filecheck=%tw_filename%</action>
+ 				<action function="set">tw_zip_location=/sdcard/Fox/FoxFiles</action>
+ 				<action function="queuezip"/>
+diff --git a/gui/theme/portrait_hdpi/pages/install.xml b/gui/theme/portrait_hdpi/pages/install.xml
+index 2f4fe508..67ef6c21 100644
+--- a/gui/theme/portrait_hdpi/pages/install.xml
++++ b/gui/theme/portrait_hdpi/pages/install.xml
+@@ -75,26 +75,26 @@
+ 			</listbox>
+ 
+ 			<button style="btn_raised">
+-				<condition var1="fileexists" var2="/sdcard/Fox/FoxFiles/%fox_magisk_zip_installer%"/>
++				<condition var1="fileexists" var2="/sdcard/Fox/FoxFiles/Magisk.apk"/>
+ 				<condition var1="of_magisk_in_queue" var2="0"/>
+ 				<condition var1="tw_zip_queue_count" var2="1"/>
+ 				<placement x="%btn_raised_left_x%" y="%row_btn2_y%"/>
+ 				<text>{@install_queue_magisk_btn}</text>
+-				<action function="set">tw_file=%fox_magisk_zip_installer%</action>
+-				<action function="set">tw_filename=/sdcard/Fox/FoxFiles/%fox_magisk_zip_installer%</action>
++				<action function="set">tw_file=Magisk.apk</action>
++				<action function="set">tw_filename=/sdcard/Fox/FoxFiles/Magisk.apk</action>
+ 				<action function="set">tw_zip_location=/sdcard/Fox/FoxFiles</action>
+ 				<action function="queuezip"/>
+ 				<action function="page">flash_confirm</action>
+ 			</button>
+ 			
+ 			<button style="btn_raised">
+-				<condition var1="fileexists" var2="/sdcard/Fox/FoxFiles/%fox_magisk_zip_installer%"/>
++				<condition var1="fileexists" var2="/sdcard/Fox/FoxFiles/Magisk.apk"/>
+ 				<condition var1="of_magisk_in_queue" var2="0"/>
+ 				<condition var1="tw_zip_queue_count" op="&gt;=" var2="2"/>
+ 				<placement x="%btn_raised_left_x%" y="%row_btn3_y%"/>
+ 				<text>{@install_queue_magisk_btn}</text>
+-				<action function="set">tw_file=%fox_magisk_zip_installer%</action>
+-				<action function="set">tw_filename=/sdcard/Fox/FoxFiles/%fox_magisk_zip_installer%</action>
++				<action function="set">tw_file=Magisk.apk</action>
++				<action function="set">tw_filename=/sdcard/Fox/FoxFiles/Magisk.apk</action>
+ 				<action function="set">tw_zip_location=/sdcard/Fox/FoxFiles</action>
+ 				<action function="queuezip"/>
+ 				<action function="page">flash_confirm</action>
+diff --git a/gui/theme/portrait_hdpi/pages/magisk.xml b/gui/theme/portrait_hdpi/pages/magisk.xml
+index f55c8699..d91c33f7 100644
+--- a/gui/theme/portrait_hdpi/pages/magisk.xml
++++ b/gui/theme/portrait_hdpi/pages/magisk.xml
+@@ -82,13 +82,13 @@
+ 
+ 			<button style="actionbar">
+ 				<placement x="%ab_btn1_x%" y="%ab_y%" placement="4"/>
+-				<condition var1="fileexists" var2="/sdcard/Fox/FoxFiles/%fox_magisk_uninstaller%"/>
++				<condition var1="fileexists" var2="/sdcard/Fox/FoxFiles/uninstall.zip"/>
+ 				<action function="set">install_back=magisk_mount</action>
+ 				<action function="page">mod_unmagisk</action>
+ 			</button>
+ 
+ 			<image>
+-				<condition var1="fileexists" var2="/sdcard/Fox/FoxFiles/%fox_magisk_uninstaller%"/>
++				<condition var1="fileexists" var2="/sdcard/Fox/FoxFiles/uninstall.zip"/>
+ 				<placement x="%ab_btn1_x%" y="%ab_y%" placement="4"/>
+ 				<image resource="actionbar_delete"/>
+ 			</image>
+@@ -104,7 +104,7 @@
+ 			</text>
+ 
+ 			<button style="menu_btn">
+-				<condition var1="fileexists" var2="/sdcard/Fox/FoxFiles/%fox_magisk_zip_installer%"/>
++				<condition var1="fileexists" var2="/sdcard/Fox/FoxFiles/Magisk.apk"/>
+ 				<placement x="%col1_x_caption%" y="%row1_3a_y%" w="%input_w%" h="%mb_h_hide%"/>
+ 				<action function="set">install_back=magisk_mount</action>
+ 				<action function="page">mod_magisk</action>
+diff --git a/variables.h b/variables.h
+index 6690f39e..0cb4872c 100644
+--- a/variables.h
++++ b/variables.h
+@@ -92,8 +92,6 @@ static int Fox_Current_ROM_IsMIUI = 0; // is the currently installed ROM a MIUI
+ #define FOX_STARTUP_SCRIPT "/sbin/foxstart.sh"
+ #define FOX_PS_BIN "/FFiles/ps"
+ #define FOX_NEW_MAGISKBOOT "/FFiles/magiskboot_new"
+-#define FOX_MAGISK_ZIP_INSTALLER "Magisk.zip"
+-#define FOX_MAGISK_UNINSTALLER "Magisk_uninstall.zip"
+ 
+ #define FOX_THEME_VERSION "1.1"
+ 
+-- 
+2.39.2
+
