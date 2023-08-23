@@ -3,6 +3,10 @@
 patch_of_sync () {
 	sed -i 's/repo init --depth=1 -u $MIN_MANIFEST -b $TWRP_BRANCH;/repo init --depth=1 --no-repo-verify -u $MIN_MANIFEST -b $TWRP_BRANCH -g default,-mips,-darwin,-notdefault;/g' ./orangefox_sync.sh
 	sed -i 's/repo sync;/repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j$(nproc --all);/g' ./orangefox_sync.sh
+	sed -i 's/gitlab.com\/OrangeFox\/bootable\/Recovery/github.com\/TheParasiteProject-Misc\/bootable_recovery/g' ./orangefox_sync.sh
+	sed -i 's/gitlab.com:OrangeFox\/bootable\/Recovery/github.com:TheParasiteProject-Misc\/bootable_recovery/g' ./orangefox_sync.sh
+	sed -i 's/gitlab.com\/OrangeFox\/vendor\/recovery/github.com\/TheParasiteProject-Misc\/vendor_recovery/g' ./orangefox_sync.sh
+	sed -i 's/gitlab.com:OrangeFox\/vendor\/recovery/github.com:TheParasiteProject-Misc\/vendor_recovery/g' ./orangefox_sync.sh
 }
 
 patch_of_update () {
